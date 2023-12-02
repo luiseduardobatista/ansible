@@ -2,6 +2,7 @@
   ansible.builtin.package:
     name: flatpak
     state: present
+    method: user
   tags:
     - flatpak
   become: true
@@ -19,6 +20,7 @@
   community.general.flatpak:
     name: com.visualstudio.code
     state: present
+    method: user
   tags:
     - flatpak
   ignore_errors: true
@@ -27,6 +29,7 @@
   community.general.flatpak:
     name: io.dbeaver.DBeaverCommunity
     state: present
+    method: user
   tags:
     - flatpak
   ignore_errors: true
@@ -35,6 +38,7 @@
   community.general.flatpak:
     name: com.github.tchx84.Flatseal
     state: present
+    method: user
   tags:
     - flatpak
   ignore_errors: true
@@ -43,6 +47,7 @@
   community.general.flatpak:
     name: com.brave.Browser
     state: present
+    method: user
   tags:
     - flatpak
   ignore_errors: true
@@ -51,6 +56,7 @@
   community.general.flatpak:
     name: rest.insomnia.Insomnia
     state: present
+    method: user
   tags:
     - flatpak
   ignore_errors: true
