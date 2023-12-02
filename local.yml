@@ -1,0 +1,23 @@
+- hosts: localhost
+  become: true
+  vars:
+    git_keys: ".ssh/"
+    personal_key: ".ssh/id_rsa_pessoal"
+    work_key: ".ssh/id_rsa_trabalho"
+    source_git_config: ".ssh/config"
+    dest_key_personal: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_pessoal"
+    dest_key_work: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_trabalho"
+    dest_git_config: "{{ lookup('env', 'HOME') }}/.ssh/config"
+    dest_git_keys: "{{ lookup('env', 'HOME') }}/.ssh/"
+  pre_tasks:
+    - name: Update cache
+      ansible.builtin.package:
+        update_cache: true
+      tags:
+        - install
+        - core
+
+  tasks:
+    - include_tasks: tasks/ssh.yml
+    - include_tasks: tasks/flatpaks.yml
+    - include_tasks: tasks/devtools.yml

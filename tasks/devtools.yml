@@ -1,0 +1,52 @@
+- name: Install git
+  ansible.builtin.package:
+    name: git
+    state: latest
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Install zsh
+  ansible.builtin.package:
+    name: zsh
+    state: present
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Install oh-my-zsh
+  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Install JetBrains Toolbox
+  shell: curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Install sdkman
+  shell: curl -s "https://get.sdkman.io" | bash
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Install poetry
+  shell: curl -sSL https://install.python-poetry.org | python3 -
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Install pyenv
+  shell: curl https://pyenv.run | bash
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
