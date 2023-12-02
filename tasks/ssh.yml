@@ -17,11 +17,20 @@
     - install
     - ssh
 
-- name: Set authorized key took from file
+- name: Set authorized personal key took from file
   authorized_key:
     user: "{{ lookup('env', 'USER') }}"
     state: present
-    key: "{{ lookup('env', 'HOME') }}/.ssh/*.pub"
+    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_pessoal.pub"
   with_fileglob:
-    - "{{ lookup('env', 'HOME') }}/.ssh/*.pub"
+    - "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_pessoal.pub"
+  ignore_errors: true
+
+- name: Set authorized work key took from file
+  authorized_key:
+    user: "{{ lookup('env', 'USER') }}"
+    state: present
+    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_kyros.pub"
+  with_fileglob:
+    - "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_kyros.pub"
   ignore_errors: true
