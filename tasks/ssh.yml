@@ -3,6 +3,7 @@
     dest: "{{ dest_git_keys }}"
     mode: 0700
     state: directory
+  owner: "{{ lookup('env', 'USER') }}"
   tags:
     - dotfiles
     - install
@@ -12,6 +13,7 @@
     src: "{{ git_keys }}"
     dest: "{{ dest_git_keys }}"
     mode: 0644
+  owner: "{{ lookup('env', 'USER') }}"
   tags:
     - dotfiles
     - install
