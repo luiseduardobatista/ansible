@@ -7,22 +7,6 @@
   become: true
   ignore_errors: true
 
-- name: Install zsh
-  ansible.builtin.package:
-    name: zsh
-    state: present
-  tags:
-    - dev
-  become: true
-  ignore_errors: true
-
-- name: Install oh-my-zsh
-  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
-  tags:
-    - dev
-  become: true
-  ignore_errors: true
-
 - name: Install JetBrains Toolbox
   shell: curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
   tags:
@@ -44,8 +28,30 @@
   become: true
   ignore_errors: true
 
+- name: Config poetry
+  shell: echo 'export PATH="/home/luisb/.local/bin:$PATH"' >> ~/.bashrc
+
 - name: Install pyenv
   shell: curl https://pyenv.run | bash
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Install zsh
+  ansible.builtin.package:
+    name: zsh
+    state: present
+  tags:
+    - dev
+  become: true
+  ignore_errors: true
+
+- name: Set zsh as default
+  shell: chsh -s $(which zsh)
+
+- name: Install oh-my-zsh
+  shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
   tags:
     - dev
   become: true
