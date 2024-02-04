@@ -1,4 +1,4 @@
-- name : Install flatpak
+- name: Install flatpak
   ansible.builtin.package:
     name: flatpak
     state: present
@@ -8,21 +8,11 @@
   become: true
   ignore_errors: true
 
-
 - name: Install flathub repo
   shell: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
   tags:
     - flatpak
   become: true
-  ignore_errors: true
-
-- name: Install Visual Studio Code flatpak
-  community.general.flatpak:
-    name: com.visualstudio.code
-    state: present
-    method: user
-  tags:
-    - flatpak
   ignore_errors: true
 
 - name: Install DBeaver Community flatpak

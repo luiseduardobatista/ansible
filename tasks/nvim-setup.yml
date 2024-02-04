@@ -1,0 +1,54 @@
+- name: Remove neovim
+  shell: rm -rf ~/neovim
+  tags:
+    - install
+    - neovim
+
+- name: Install libstdc++
+  ansible.builtin.package:
+    name: libstdc++
+    state: present
+  become: true
+  ignore_errors: true
+
+- name: Install xclip
+  ansible.builtin.package:
+    name: xclip
+    state: present
+  become: true
+  ignore_errors: true
+
+- name: Install ripgrep
+  ansible.builtin.package:
+    name: ripgrep
+    state: present
+  become: true
+  ignore_errors: true
+
+- name: Install fd
+  ansible.builtin.package:
+    name: fd-find
+    state: present
+  become: true
+  ignore_errors: true
+
+- name: Clone Neovim
+  ansible.builtin.git:
+    repo: "https://github.com/neovim/neovim.git"
+    dest: "{{ lookup('env', 'HOME') }}/neovim"
+  tags:
+    - install
+    - neovim
+
+- name: Build neovim
+  shell: "cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
+  tags:
+    - install
+    - neovim
+
+- name: Install neovim
+  become: true
+  shell: "cd {{ lookup('env', 'HOME') }}/neovim && make install"
+  tags:
+    - install
+    - neovim
