@@ -52,9 +52,3 @@
   tags:
     - install
     - neovim
-
-- name: Delete .config/nvim
-  shell: "rm -rf ~/.config/nvim/"
-
-- name: Install LazyVim
-  shell: "git clone https://github.com/LazyVim/starter ~/.config/nvim"
