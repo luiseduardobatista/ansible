@@ -9,10 +9,11 @@
     dest_key_work: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_kyros"
     dest_git_config: "{{ lookup('env', 'HOME') }}/.ssh/config"
     dest_git_keys: "{{ lookup('env', 'HOME') }}/.ssh/"
+    hosts: "hosts"
 
   tasks:
+    - include_tasks: tasks/devtools.yml
     - include_tasks: tasks/ssh.yml
     - include_tasks: tasks/flatpaks.yml
-    - include_tasks: tasks/devtools.yml
     - include_tasks: tasks/nerdfont.yml
     - include_tasks: tasks/nvim-setup.yml

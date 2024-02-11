@@ -7,6 +7,10 @@
   become: true
   ignore_errors: true
 
+- name: Add hosts
+  become: true
+  shell: cp {{ hosts }} /etc/hosts
+
 - name: Install JetBrains Toolbox
   shell: curl -fsSL https://raw.githubusercontent.com/nagygergo/jetbrains-toolbox-install/master/jetbrains-toolbox.sh | bash
   tags:
