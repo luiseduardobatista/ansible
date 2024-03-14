@@ -9,6 +9,7 @@
 
 - name: Add hosts
   become: true
+  become_user: root
   shell: cat {{ hosts }} >> /etc/hosts
 
 - name: Install JetBrains Toolbox
@@ -43,20 +44,34 @@
   ignore_errors: true
 
 - name: Install zsh
+  become: true
+  become_user: root
   ansible.builtin.package:
     name: zsh
     state: present
   tags:
     - dev
+  ignore_errors: true
+
+- name: Install zsh
   become: true
+  ansible.builtin.package:
+    name: zsh
+    state: present
+  tags:
+    - dev
   ignore_errors: true
 
 - name: Set zsh as default
-  shell: chsh -s $(which zsh)
+  ansible.builtin.user:
+    name: "{{ ansible_env.USER }}"
+    shell: /bin/zsh
+  become: true
+
 
 - name: Install oh-my-zsh
+  become: true
   shell: curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
   tags:
     - dev
-  become: true
   ignore_errors: true
