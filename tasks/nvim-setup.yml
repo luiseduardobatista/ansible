@@ -3,34 +3,47 @@
   tags:
     - install
     - neovim
+  ignore_errors: true
 
-- name: Install libstdc++
+- name: Install gcc
   ansible.builtin.package:
-    name: libstdc++
+    name: gcc
     state: present
   become: true
-  ignore_errors: true
 
 - name: Install xclip
   ansible.builtin.package:
     name: xclip
     state: present
   become: true
-  ignore_errors: true
 
 - name: Install ripgrep
   ansible.builtin.package:
     name: ripgrep
     state: present
   become: true
-  ignore_errors: true
 
 - name: Install fd
   ansible.builtin.package:
     name: fd-find
     state: present
   become: true
-  ignore_errors: true
+
+- name: Install neovim build dependencies
+  ansible.builtin.package:
+    name:
+      - ninja-build
+      - gettext
+      - cmake
+      - unzip
+      - curl
+      - build-essential
+    state: present
+  tags:
+    - install
+    - neovim
+  become: true
+  become_user: root
 
 - name: Clone Neovim
   ansible.builtin.git:
@@ -41,14 +54,14 @@
     - neovim
 
 - name: Build neovim
-  shell: "cd {{ lookup('env', 'HOME') }}/neovim && make -j 20"
+  shell: "cd {{ lookup('env', 'HOME') }}/neovim && CMAKE_BUILD_TYPE=RelWithDebInfo && git checkout stable"
   tags:
     - install
     - neovim
 
 - name: Install neovim
   become: true
-  shell: "cd {{ lookup('env', 'HOME') }}/neovim && make install"
+  shell: "cd {{ lookup('env', 'HOME') }}/neovim && sudo make install"
   tags:
     - install
     - neovim
