@@ -3,17 +3,32 @@
     dest: "{{ dest_git_keys }}"
     mode: 0700
     state: directory
-  owner: "{{ lookup('env', 'USER') }}"
+    owner: "{{ lookup('env', 'USER') }}"
   tags:
     - dotfiles
     - install
     - ssh
+
 - name: Install ssh keys
   copy:
     src: "{{ git_keys }}"
     dest: "{{ dest_git_keys }}"
-    mode: 0644
-  owner: "{{ lookup('env', 'USER') }}"
+    mode: 0600
+    owner: "{{ lookup('env', 'USER') }}"
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
+- name: Change ssh keys access level.
+  shell: chmod 644 ~/.ssh/id_rsa_pessoal.pub ; chmod 644 ~/.ssh/id_rsa_kyros.pub
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
+- name: Start ssh agent.
+  shell: eval "$(ssh-agent)"
   tags:
     - dotfiles
     - install
@@ -23,16 +38,23 @@
   authorized_key:
     user: "{{ lookup('env', 'USER') }}"
     state: present
-    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_pessoal.pub"
-  with_fileglob:
-    - "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_pessoal.pub"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa_pessoal.pub') }}"
   ignore_errors: true
 
 - name: Set authorized work key took from file
   authorized_key:
     user: "{{ lookup('env', 'USER') }}"
     state: present
-    key: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_kyros.pub"
-  with_fileglob:
-    - "{{ lookup('env', 'HOME') }}/.ssh/id_rsa_kyros.pub"
+    key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa_kyros.pub') }}"
   ignore_errors: true
+  
+- name: Restart shell
+  shell: source ~/.bashrc
+  args:
+    executable: /bin/bash
+  tags:
+    - dotfiles
+    - install
+    - ssh
+
+
