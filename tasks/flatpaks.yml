@@ -1,25 +1,20 @@
 - name: Install flatpak
+  become: true
   ansible.builtin.package:
     name: flatpak
     state: present
-    method: user
   tags:
     - flatpak
-  become: true
-  ignore_errors: true
 
 - name: Install flathub repo
   shell: flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
   tags:
     - flatpak
-  become: true
-  ignore_errors: true
 
 - name: Install DBeaver Community flatpak
   community.general.flatpak:
     name: io.dbeaver.DBeaverCommunity
     state: present
-    method: user
   tags:
     - flatpak
   ignore_errors: true
@@ -28,7 +23,6 @@
   community.general.flatpak:
     name: com.github.tchx84.Flatseal
     state: present
-    method: user
   tags:
     - flatpak
   ignore_errors: true
@@ -37,7 +31,6 @@
   community.general.flatpak:
     name: com.brave.Browser
     state: present
-    method: user
   tags:
     - flatpak
   ignore_errors: true
@@ -46,7 +39,6 @@
   community.general.flatpak:
     name: rest.insomnia.Insomnia
     state: present
-    method: user
   tags:
     - flatpak
   ignore_errors: true
